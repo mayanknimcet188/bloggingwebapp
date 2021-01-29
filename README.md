@@ -1,2 +1,3 @@
-# flask-tutorial
-Flask Tutorial
+# bloggingwebapp
+Simple blogging web app in flask
+
