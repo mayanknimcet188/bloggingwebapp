@@ -2,6 +2,7 @@ from . import db
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from datetime import datetime
 from flask import current_app
 from . import login_manager
 
@@ -20,6 +21,11 @@ class Role(db.Model):
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
+    name = db.Column(db.String(64))
+    location = db.Column(db.String(64))
+    about_me = db.Column(db.Text())
+    member_since = db.Column(db.DateTime(),default=datetime.utcnow)
+    last_seen = db.Column(db.DateTime(),default=datetime.utcnow)
     id = db.Column(db.Integer,primary_key=True)
     email = db.Column(db.String(64),unique=True,index=True)
     username = db.Column(db.String(64),unique=True,index=True)
