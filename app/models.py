@@ -35,7 +35,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     
-    def __init__(self):
+    def __init__(self,**kwargs):
+        super(User,self).__init__(**kwargs)
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = self.gravatar_hash()
 
