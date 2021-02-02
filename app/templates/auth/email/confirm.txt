@@ -1,0 +1,8 @@
+Dear {{ user.username }},
+
+Welcome to Blogly!
+
+To confirm the account please click on the following link:
+{{ url_for('auth.confirm', token=token,_external =True) }}
+
+Sincerely the Blogly Team

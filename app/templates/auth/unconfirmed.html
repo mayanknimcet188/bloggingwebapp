@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Blogly - Confirm your account{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Hello, {{ current_user.usernanme }}</h1>
+        <h3> You haven't confirmed your account yet</h3>
+        <p>In order to access this site, first you have to confirm you account by following the confirmation link sent to your registered email</p>
+        <p>For another confirmation link...<a href="{{ url_for('auth.resend_confirmation') }}">click here</a></p>
+    </div>
+{% endblock %}
+
