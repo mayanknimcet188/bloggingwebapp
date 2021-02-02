@@ -30,9 +30,14 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer,primary_key=True)
     email = db.Column(db.String(64),unique=True,index=True)
     username = db.Column(db.String(64),unique=True,index=True)
+    avatar_hash = db.Column(db.String(32))
     role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
+    
+    def __init__(self):
+        if self.email is not None and self.avatar_hash is None:
+            self.avatar_hash = self.gravatar_hash()
 
     @property
     def password(self):
@@ -60,9 +65,11 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
+    def gravatar_hash(self):
+        return hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
     def gravatar(self,size=100,default='identicon',rating='g'):
         url = 'https://secure.gravatar.com/avatar'
-        hash = hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
+        hash = self.avatar_hash or self.gravatar_hash()
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url,hash=hash,size=size,default=default,rating=rating)
 
     def ping(self):
